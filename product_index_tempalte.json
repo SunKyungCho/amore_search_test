@@ -1,0 +1,82 @@
+{
+  "index_patterns": [
+    "product*"
+  ],
+  "settings": {
+    "number_of_replicas": 0,
+    "number_of_shards": 1,
+    "analysis": {
+      "tokenizer": {
+        "nori_tokenizer": {
+          "type": "nori_tokenizer",
+          "decompound_mode": "mixed",
+          "user_dictionary": "dictionary/user_dic.txt"
+        }
+      },
+      "filter": {
+        "synonym": {
+          "type": "synonym",
+          "synonyms_path": "dictionary/synonym.txt"
+        }
+      },
+      "analyzer": {
+        "korean": {
+          "filter": [
+            "lowercase",
+            "synonym"
+          ],
+          "tokenizer": "nori_tokenizer"
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "@timestamp": {
+        "type": "date"
+      },
+      "@version": {
+        "type": "keyword"
+      },
+      "brand_name": {
+        "type": "keyword",
+        "fields": {
+          "korean": {
+            "type": "text",
+            "analyzer": "korean"
+          }
+        }
+      },
+      "category_name": {
+        "type": "keyword",
+        "fields": {
+          "korean": {
+            "type": "text",
+            "analyzer": "korean"
+          }
+        }
+      },
+      "category_no": {
+        "type": "long"
+      },
+      "depth": {
+        "type": "long"
+      },
+      "product_name": {
+        "type": "keyword",
+        "fields": {
+          "korean": {
+            "type": "text",
+            "analyzer": "korean"
+          }
+        }
+      },
+      "product_no": {
+        "type": "long"
+      },
+      "product_price": {
+        "type": "long"
+      }
+    }
+  }
+}
