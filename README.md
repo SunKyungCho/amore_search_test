@@ -3,7 +3,10 @@
 ## Use Case
 
 ### 1. Mapping Template
-상품 Index의 template
+상품 Index의 template 
+
+[Product Index Template 확인](https://github.com/SunKyungCho/amore_search_test/blob/main/product_index_tempalte.json) 
+
 ```javascript
 {
   "index_patterns": [
@@ -94,6 +97,9 @@
 
 ### 2. 데이터 수집
 Logstash를 활용한 데이터 수집:
+
+[Logstash pipeline conf 파일 확인](https://github.com/SunKyungCho/amore_search_test/blob/main/product_logstash.conf)
+
 ```javascript
 input {
   jdbc {
