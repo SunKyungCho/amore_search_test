@@ -179,7 +179,7 @@ funciton score query를 통한 해결하였다. function을 사용하여 `생활
 }
 ```
  
-### API 
+### 4. API 
 사용 기술: Java, Spring boot
 
 소스를 받아 빌드하거나 릴리즈된 jar 파일을 [다운로드](https://github.com/SunKyungCho/amore_search_test/releases/tag/0.0.1) 하여 실행해볼 수 있다.
