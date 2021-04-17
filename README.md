@@ -1,9 +1,13 @@
 # Amore_search_test
+## 문제
+* A 쇼핑몰에서는 10 가지 카테고리에 총 1000 개의 상품을 판매하고 있다.
+* 카테고리란, 개별 상품이 속하는 상품 범주의 종류. 아래 그림에서 메이크업/스킨케어 등을 1 차 카테고리, 스킨토너/로션에멀젼 등을 2 차카테고리라고 하며, 본 문제에서의 카테고리는 "스킨케 어-스킨토너" 형태로 1,2 차 카테고리를 합친 문자열 형태를 갖는다.
+* 하나의 개별 상품은 단 1개의 카테고리에만 속한다.
+* 카테고리는 카테고리명이라는 단 1 개의 속성만 갖는다.
+* 개별 상품은 상품명, 카테고리, 가격이라는 3 가지 속성을 가진다.
 
-## Use Case
-
-### 1. Mapping Template
-상품 Index의 template 
+## 1. 데이터 Mapping Template
+한글 노리 형태소 분석기를 활용한 elsticsearch mapping template 작성하였습니다. 사용자 사전을 통해 상품 도메인의 키워드를 등록하였으며, 추가로 synonym filter도 추가 하였습니다.
 
 [Product Index Template 확인](https://github.com/SunKyungCho/amore_search_test/blob/main/product_index_tempalte.json) 
 
@@ -95,9 +99,8 @@
 ```
 
 
-### 2. 데이터 수집
-Logstash를 활용한 데이터 수집:
-
+## 2. 데이터 수집/정제/적재
+SQL Dump 데이터를 Elsticsearch 색인한다. 별도의 정제 과정은 현 과제에서는 불필요하다 생각하여 작성하지 않았습니다.  
 [Logstash pipeline conf 파일 확인](https://github.com/SunKyungCho/amore_search_test/blob/main/product_logstash.conf)
 
 ```javascript
@@ -126,16 +129,16 @@ output {
 }
 ```
 
-### 3. 상품쿼리작성
+## 3. 상품 쿼리 작성
 
-1.`손크림` 검색시 `러빙데이즈핸드크림`도 같이 검색될 수 있도록 해야한다.:
+### 1.`손크림` 검색시 `러빙데이즈핸드크림`도 같이 검색될 수 있도록 해야한다.:
 동의어 사전을 등록을 통해 `손` 검색시 `핸드`도 같이 검색될 수 있도록 하였다. 
 ```text
 손,핸드
 ```
 다만 `손`과 한 글자를 동의어로 등록하는 것은 사이드 이팩트가 생길 수 있다. `손크림`, `핸드크림`을 사용자 사전에 등록하고 동의어 사전을 작성하는 방식도 고려해 볼수 있겠다. 
 
-2.검색결과 리스트중 생활 용품 카테고리는 최상위리스트에 와야 한다.
+### 2.검색결과 리스트중 생활 용품 카테고리는 최상위리스트에 와야 한다.
 funciton score query를 통한 해결하였다. function을 사용하여 `생활용품`의 가중치를 높게 작성하였다. 
 쿼리는 아래와 같다. 
 ```javascript
